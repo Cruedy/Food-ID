@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import React, {useState} from 'react';
 import axios from 'axios';
-import { type } from '@testing-library/user-event/dist/type';
 
 function ImageUploader() {
     const [image, setImage] = useState(null);
@@ -10,7 +8,6 @@ function ImageUploader() {
     const [ingredients, setIngredients] = useState([]);
     const [hoveredItem, setHoveredItem] = useState(null);
     const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
-    const [renderedDimensions, setRenderedDimensions] = useState({ width: 0, height: 0 });
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -71,7 +68,6 @@ function ImageUploader() {
   const handleImageLoad = (event) => {
     const { naturalWidth, naturalHeight } = event.target; // Get original image dimensions
     setImageDimensions({ width: naturalWidth, height: naturalHeight });
-    setRenderedDimensions({ width: event.target.clientWidth, height: event.target.clientHeight });
   };
 
   const generateWikipediaUrl = (ingredientName) => {

@@ -10,7 +10,7 @@ import random
 import base64
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}}, methods=["POST"])
 
 # Load the pre-trained YOLOv5 model
 model = torch.hub.load("Cruedy/customYolov5", "custom", path="yolov5s.pt") 
@@ -18,7 +18,7 @@ model = torch.hub.load("Cruedy/customYolov5", "custom", path="yolov5s.pt")
 # Using personally trained model
 # model = torch.hub.load("Cruedy/customYolov5", "custom", path="best.pt") 
 
-@app.route('/backend/route', methods = ['POST'])
+@app.route('/predict', methods = ['POST'])
 def findFood():
     try:
         if 'image' not in request.files:
@@ -30,14 +30,23 @@ def findFood():
         img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
         img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
+        if img is None:
+            print("Failed to decode image")
+            return jsonify({"error": "Failed to decode image"}), 400
+
+
         # Determine the image file extension (e.g., '.jpg', '.png')
-        ext = '.' + file.filename.rsplit('.', 1)[1].lower()
+        ext = '.' + file.filename.rsplit('.', 1)[1].lower() if '.' in file.filename else '.jpg'
         
         # Run object detection on the image
         results = model(img_rgb)
 
         # Extract labels and bounding boxes
         predictions = results.pandas().xyxy[0]
+        if predictions.empty:
+            print("No predictions found")
+            return jsonify({"error": "No predictions found"}), 400
+        
         filtered_pred = predictions.query('confidence >= 0.15')[['name', 'confidence', 'xmin', 'ymin', 'xmax', 'ymax']]
         
         unique_colors = {}
@@ -64,6 +73,6 @@ def findFood():
         # Return both the JSON and image with the dynamic format
         return jsonify({"ingredients": detected_items, "image": f"data:image/{ext[1:]};base64,{img_base64}"})
     except Exception as e:
-        print("Error occurred:", e)
+        print("Error occurred in findFood:", str(e))
         return jsonify({"error": str(e)}), 500
 

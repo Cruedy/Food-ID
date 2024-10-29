@@ -29,8 +29,9 @@ function ImageUploader() {
 
       try {
           console.log('Processing image...');
-          const response = await axios.post('/backend/route', formData);
+          const response = await axios.post('http://localhost:3001/upload', formData);
           
+          console.log('Processing image1...');
           const { ingredients: detectedIngredients, image: processedImage } = response.data;
           console.log('Processing image2...');
           // Update the image and ingredients state
@@ -66,7 +67,7 @@ function ImageUploader() {
   };
 
   const handleImageLoad = (event) => {
-    const { naturalWidth, naturalHeight } = event.target; // Get original image dimensions
+    const { naturalWidth, naturalHeight } = event.target;
     setImageDimensions({ width: naturalWidth, height: naturalHeight });
   };
 

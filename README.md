@@ -1,3 +1,16 @@
+# Tech Stack
+## Frontend
+React
+Tailwinf
+
+### How To Start
+npm start
+
+## Backend
+### How To Start
+source myenv/bin/activate
+cd myenv
+flask run
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

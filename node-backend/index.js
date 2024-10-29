@@ -11,8 +11,7 @@ app.use(cors({
 }));
 
 const upload = multer({ dest: 'uploads/' });
-
-console.log('error here0')
+console.log('node deployed');
 app.post('/upload', upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {

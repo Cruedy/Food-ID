@@ -52,7 +52,7 @@ def findFood():
             x1, y1, x2, y2 = int(row['xmin']), int(row['ymin']), int(row['xmax']), int(row['ymax'])
             color = get_separate_colors(label)
             cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
-            cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
+            cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_TRIPLEX, 0.6, color, 2)
         
         # Encode the image with the same file extension
         _, buffer = cv2.imencode(ext, img)

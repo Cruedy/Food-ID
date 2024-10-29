@@ -119,30 +119,35 @@ function ImageUploader() {
                       ))}
                   </div>
               </div>
-              <div className="w-1/2 h-screen border-2 border-gray-400 bg-gray-200">
-                  <h2 className="text-lg font-bold">Tip:</h2>
-                  <p>Hover over the items in the list to see which items they're associated with from the fridge. Click on the items in list to get information on the item.</p>
-                  <div className="flex flex-col justify-center items-center h-full">
-                      <h3 className="text-lg font-bold">Detected Items:</h3>
-                      <ul>
-                          {Object.keys(ingredients).length > 0 ? (
-                              Object.entries(ingredients).map(([name, { count }], index) => (
-                                  <li
-                                      key={index}
-                                      className="text-center cursor-pointer"
-                                      onMouseEnter={() => setHoveredItem(name)}
-                                      onMouseLeave={() => setHoveredItem(null)}
-                                      onClick={() => window.open(generateWikipediaUrl(name), '_blank')} // Open Wikipedia link in a new tab
-                                  >
-                                      {count} {name}
-                                  </li>
-                              ))
-                          ) : (
-                              <p>No items detected.</p>
-                          )}
-                      </ul>
-                  </div>
-              </div>
+              <div className="w-1/2 h-screen border-2 border-gray-400 bg-gray-200 p-4 overflow-y-auto">
+                <h2 className="text-xl font-bold mb-2">Tip:</h2>
+                <p className="mb-2 text-sm text-gray-700">
+                    Hover over the items in the list to see which items they're associated with from the fridge.
+                    <br />
+                    Click on the items in the list to get information on the item.
+                </p>
+                <div className="flex flex-col items-center h-full ">
+                    <h3 className="text-xl font-semibold mb-1">Detected Items</h3>
+                    <ul className="w-full">
+                        {Object.keys(ingredients).length > 0 ? (
+                            Object.entries(ingredients).map(([name, { count }], index) => (
+                                <li
+                                    key={index}
+                                    className="text-center cursor-pointer p-3 mb-2 bg-white rounded-md shadow-sm hover:bg-blue-50 transition duration-200 ease-in-out"
+                                    onMouseEnter={() => setHoveredItem(name)}
+                                    onMouseLeave={() => setHoveredItem(null)}
+                                    onClick={() => window.open(generateWikipediaUrl(name), '_blank')}
+                                >
+                                    <span className="font-medium">{count} {name}</span>
+                                </li>
+                                
+                            ))
+                        ) : (
+                            <p className="text-gray-500 text-center">No items detected.</p>
+                        )}
+                    </ul>
+                </div>
+            </div>    
           </div>
       </div>
   );              

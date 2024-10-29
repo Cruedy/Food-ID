@@ -48,8 +48,18 @@ function ImageUploader() {
               acc[item.name].bboxes.push([item.xmin, item.ymin, item.xmax, item.ymax]); // Store bounding box
               return acc;
           }, {});
+
+          console.log('result', result);
+
+          const modifiedResult = {};
+          for (const [name, data] of Object.entries(result)) {
+              const modifiedName = data.count > 1 ? `${name}s` : name;
+              modifiedResult[modifiedName] = data;
+          }
+          
+          console.log('result', modifiedResult);
           console.log('Processing image3...');
-          setIngredients(result);
+          setIngredients(modifiedResult);
           setImage(processedImage);
 
           console.log('Processed image and ingredients received:', result);
@@ -64,10 +74,8 @@ function ImageUploader() {
     setRenderedDimensions({ width: event.target.clientWidth, height: event.target.clientHeight });
   };
 
-  const calculateScaleFactors = () => {
-      const widthScale = renderedDimensions.width / imageDimensions.width;
-      const heightScale = renderedDimensions.height / imageDimensions.height;
-      return { widthScale, heightScale };
+  const generateWikipediaUrl = (ingredientName) => {
+    return `https://en.wikipedia.org/wiki/${encodeURIComponent(ingredientName)}`;
   };
     
   return (
@@ -90,29 +98,30 @@ function ImageUploader() {
                               src={image} 
                               alt="Processed preview" 
                               className="w-full h-full object-contain"
-                              onLoad={handleImageLoad} // Handle load event to get dimensions
+                              onLoad={handleImageLoad}
                           />
                       ) : (
                           <h3 className="text-lg font-bold text-center">Image Preview Area</h3>
                       )}
-                      {/* Render multiple bounding boxes for hovered items */}
                       {hoveredItem && ingredients[hoveredItem] && ingredients[hoveredItem].bboxes.map((bbox, index) => (
                           <div
                               key={index}
                               style={{
                                   position: 'absolute',
-                                  left: (bbox[0] / imageDimensions.width) * 100 + '%', // Adjust for scale
-                                  top: (bbox[1] / imageDimensions.height) * 100 + '%', // Adjust for scale
-                                  width: (bbox[2] - bbox[0]) / imageDimensions.width * 100 + '%', // Adjust for scale
-                                  height: (bbox[3] - bbox[1]) / imageDimensions.height * 100 + '%', // Adjust for scale
+                                  left: (bbox[0] / imageDimensions.width) * 100 + '%',
+                                  top: (bbox[1] / imageDimensions.height) * 100 + '%',
+                                  width: (bbox[2] - bbox[0]) / imageDimensions.width * 100 + '%',
+                                  height: (bbox[3] - bbox[1]) / imageDimensions.height * 100 + '%',
                                   border: '2px solid red',
-                                  pointerEvents: 'none' // Allow clicking through this div
+                                  pointerEvents: 'none'
                               }}
                           />
                       ))}
                   </div>
               </div>
               <div className="w-1/2 h-screen border-2 border-gray-400 bg-gray-200">
+                  <h2 className="text-lg font-bold">Tip:</h2>
+                  <p>Hover over the items in the list to see which items they're associated with from the fridge. Click on the items in list to get information on the item.</p>
                   <div className="flex flex-col justify-center items-center h-full">
                       <h3 className="text-lg font-bold">Detected Items:</h3>
                       <ul>
@@ -120,9 +129,10 @@ function ImageUploader() {
                               Object.entries(ingredients).map(([name, { count }], index) => (
                                   <li
                                       key={index}
-                                      className="text-center"
-                                      onMouseEnter={() => setHoveredItem(name)} // Set hovered item on mouse enter
-                                      onMouseLeave={() => setHoveredItem(null)} // Clear hovered item on mouse leave
+                                      className="text-center cursor-pointer"
+                                      onMouseEnter={() => setHoveredItem(name)}
+                                      onMouseLeave={() => setHoveredItem(null)}
+                                      onClick={() => window.open(generateWikipediaUrl(name), '_blank')} // Open Wikipedia link in a new tab
                                   >
                                       {count} {name}
                                   </li>
@@ -135,7 +145,7 @@ function ImageUploader() {
               </div>
           </div>
       </div>
-  );             
+  );              
 }
 
 export default ImageUploader;

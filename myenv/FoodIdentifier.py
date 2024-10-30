@@ -10,7 +10,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3001"}}, methods=["POST"])
 
 # Load the pre-trained YOLOv5 model
-model = torch.hub.load("Cruedy/customYolov5", "custom", path="yolov5s.pt", source="github") 
+# model = torch.hub.load("Cruedy/customYolov5", "custom", path="models/yolov5s.pt", source="github", trust_repo=True) 
+model = torch.hub.load('customYolov5', 'custom', path='yolov5s.pt', source='local')
+print('here')
 
 # Using personally trained model, doesn't work well
 # model = torch.hub.load("Cruedy/customYolov5", "custom", path="best.pt") 

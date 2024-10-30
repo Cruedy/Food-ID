@@ -29,7 +29,8 @@ function ImageUploader() {
 
       try {
           console.log('Processing image...');
-          const response = await axios.post('http://localhost:3001/upload', formData);
+        //   const response = await axios.post('http://localhost:3001/upload', formData);
+        const response = await axios.post('https://food-id.onrender.com/upload', formData);
           
           console.log('Processing image1...');
           const { ingredients: detectedIngredients, image: processedImage } = response.data;

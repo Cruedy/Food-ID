@@ -4,3 +4,4 @@ torch==2.0.1      # Ensure compatibility with your version
 opencv-python-headless==4.5.5.64
 numpy==1.23.5
 pandas==1.3.5
+gunicorn==20.1.0

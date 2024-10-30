@@ -81,7 +81,9 @@ I added a middle point with node.js because it helps with security by adding an 
 - The file is a configuration for Tailwind CSS.
 - This file specifies how Tailwind should be applied to the project.
 
-### How To Start
+### How To Start Locally
+uncomment line 32 and comment out line 33 in `ImageUploader.js`
+
 npm start
 
 ## Middle Point
@@ -92,7 +94,7 @@ npm start
 **index.js**
 - This file is responsible for creating an `Express` server that processes image uploads from clients, forwards those images to an external service for prediction, and returns the results.
 
-### How To Start
+### How To Start Locally
 cd node-backend
 
 node index.js
@@ -189,7 +191,7 @@ node index.js
 **numpy**
 - used to read in image
 
-### How To Start
+### How To Start Locally
 source myenv/bin/activate
 
 cd myenv

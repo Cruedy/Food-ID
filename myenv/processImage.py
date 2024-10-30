@@ -1,9 +1,5 @@
-import os
 import torch
 import cv2
-import numpy as np
-import pandas as pd
-from ultralytics import YOLO
 import random
 
 # Load the pre-trained YOLOv5 model

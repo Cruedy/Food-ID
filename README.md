@@ -84,6 +84,8 @@ I added a middle point with node.js because it helps with security by adding an 
 ### How To Start Locally
 uncomment line 32 and comment out line 33 in `ImageUploader.js`
 
+npm install
+
 npm start
 
 ## Middle Point
@@ -195,6 +197,8 @@ node index.js
 source myenv/bin/activate
 
 cd myenv
+
+pip install -r requirements
 
 flask run
 

@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 /myenv/lib/python3.12/site-packages
+/myenv/bin
 
 # testing
 /coverage
